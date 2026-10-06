@@ -1,41 +1,83 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Java Full Stack Task 1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connectly - Contact Us</title>
+
+    <!-- Connect the CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<section class="hero">
-    <h1>Welcome to My Landing Page</h1>
-    <p>Java Full Stack Internship Task 1</p>
-</section>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-icon">&#9993;</span>
+            <span>Connectly</span>
+        </div>
+    </nav>
 
-<section class="contact">
-    <h2>Contact Us</h2>
+    <!-- Main Section -->
+    <main class="main-container">
 
-    <form action="/submit" method="post">
+        <section class="hero">
+            <h1>Let's Connect</h1>
+            <p>Have a question or an idea? We'd love to hear from you.</p>
+            <p>Send us a message using the form below.</p>
+        </section>
 
-        <input type="text"
-               name="name"
-               placeholder="Enter Name"
-               required>
+        <!-- Contact Form -->
+        <section class="contact-card" id="contact">
 
-        <input type="email"
-               name="email"
-               placeholder="Enter Email"
-               required>
+            <h2>Get in Touch</h2>
 
-        <textarea name="message"
-                  placeholder="Enter Message"
-                  required></textarea>
+            <form action="/contact" method="post">
 
-        <button type="submit">
-            Submit
-        </button>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required>
+                </div>
 
-    </form>
-</section>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Write your message here"
+                        rows="5"
+                        required></textarea>
+                </div>
+
+                <button type="submit">Send Message</button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Connectly. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>

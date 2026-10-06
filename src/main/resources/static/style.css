@@ -1,62 +1,195 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background:#f4f7fc;
+/* Whole page */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #ffffff;
 }
 
-.hero{
-    background:linear-gradient(135deg,#2563eb,#1e40af);
-    color:white;
-    text-align:center;
-    padding:100px 20px;
+/* Navigation bar */
+.navbar {
+    width: 100%;
+    padding: 20px 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.hero h1{
-    font-size:48px;
-    margin-bottom:15px;
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
 }
 
-.hero p{
-    font-size:18px;
+/* Envelope icon */
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #6256d9;
+    border-radius: 10px;
+    font-size: 27px;
 }
 
-.contact{
-    width:500px;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+/* Main content */
+.main-container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
 }
 
-.contact h2{
-    text-align:center;
-    margin-bottom:20px;
+/* Heading section */
+.hero {
+    text-align: center;
+    margin-bottom: 45px;
 }
 
-input,textarea{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:8px;
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#2563eb;
-    color:white;
-    border-radius:8px;
-    cursor:pointer;
+.hero p {
+    font-size: 16px;
+    line-height: 1.6;
 }
 
-button:hover{
-    background:#1e40af;
+/* Contact form card */
+.contact-card {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    color: #222222;
+    padding: 32px;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Form heading */
+.contact-card h2 {
+    text-align: center;
+    color: #6256d9;
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+/* Each form field */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Input fields and message box */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Input focus effect */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #6256d9;
+    box-shadow: 0 0 0 3px rgba(98, 86, 217, 0.12);
+}
+
+/* Message box */
+.form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    padding: 13px;
+    background: #6256d9;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: #5145c5;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 600px) {
+    .navbar {
+        padding: 18px 20px;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .main-container {
+        padding: 30px 16px;
+    }
+
+    .hero {
+        margin-bottom: 30px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .contact-card {
+        padding: 25px 20px;
+    }
 }

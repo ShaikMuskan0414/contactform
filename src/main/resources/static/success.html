@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Sent Successfully</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            padding: 50px 35px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: appear 0.6s ease-out;
+        }
+
+        .success-icon {
+            width: 95px;
+            height: 95px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #e4f9ed;
+            color: #20a464;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            font-weight: bold;
+            border: 3px solid #b7edce;
+        }
+
+        h1 {
+            color: #24243e;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #20a464;
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .home-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-card {
+                padding: 40px 22px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="success-card">
+
+        <div class="success-icon">&#10003;</div>
+
+        <h1>Thank You!</h1>
+
+        <p class="subtitle">Your message has been sent successfully.</p>
+
+        <p class="description">
+            We appreciate you reaching out to us.
+            Your message has been received, and we look forward
+            to connecting with you soon.
+        </p>
+
+        <a href="/" class="home-button">← Back to Home</a>
+
+        <p class="footer">
+            Thank you for getting in touch with us!
+        </p>
+
+    </div>
+
+</body>
+</html>

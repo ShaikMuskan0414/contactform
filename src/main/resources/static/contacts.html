@@ -1,0 +1,667 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectly - Contact Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #243047;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #2457a7;
+        }
+
+        .subtitle {
+            color: #667085;
+            margin-top: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+            margin-bottom: 22px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccd3df;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 85px;
+        }
+
+        button {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 3px;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .primary {
+            background: #2457a7;
+            color: white;
+        }
+
+        .secondary {
+            background: #e8edf5;
+            color: #243047;
+        }
+
+        .edit {
+            background: #fff0c2;
+            color: #775500;
+        }
+
+        .delete {
+            background: #ffe1e1;
+            color: #a52222;
+        }
+
+        .logout {
+            background: #e8edf5;
+            color: #243047;
+            text-decoration: none;
+            padding: 11px 16px;
+            border-radius: 6px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 13px 10px;
+            border-bottom: 1px solid #e6eaf0;
+            overflow-wrap: anywhere;
+        }
+
+        th {
+            background: #f5f7fb;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar select {
+            width: auto;
+            min-width: 140px;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            white-space: pre-line;
+        }
+
+        .success {
+            display: block;
+            background: #e2f7e9;
+            color: #176534;
+        }
+
+        .error {
+            display: block;
+            background: #ffe7e7;
+            color: #a52222;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        #pageInfo {
+            color: #475467;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            header {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header>
+        <div>
+            <h1>Connectly</h1>
+            <p class="subtitle">Contact Management Dashboard</p>
+        </div>
+        <a class="logout" href="/logout">Logout</a>
+    </header>
+
+    <div id="pageMessage" class="message"></div>
+
+    <section class="card">
+        <h2 id="formTitle">Add New Contact</h2>
+
+        <form id="contactForm">
+            <input type="hidden" id="contactId">
+
+            <div class="form-grid">
+                <div>
+                    <label for="name">Name</label>
+                    <input id="name" name="name"
+                           type="text" required maxlength="100"
+                           placeholder="Enter full name">
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email"
+                           type="email" required maxlength="150"
+                           placeholder="Enter email address">
+                </div>
+
+                <div class="full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message"
+                              required maxlength="2000"
+                              placeholder="Enter message"></textarea>
+                </div>
+            </div>
+
+            <div id="formMessage" class="message"></div>
+
+            <button class="primary" type="submit" id="saveButton">
+                Add Contact
+            </button>
+
+            <button class="secondary" type="button"
+                    id="cancelButton" hidden>
+                Cancel Edit
+            </button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Saved Contacts</h2>
+
+        <div class="toolbar">
+            <label for="sortField">Sort by:</label>
+
+            <select id="sortField">
+                <option value="name">Name</option>
+                <option value="email">Email</option>
+                <option value="id">ID</option>
+            </select>
+
+            <select id="sortDirection">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+
+            <label for="pageSize">Rows:</label>
+
+            <select id="pageSize">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+            </select>
+
+            <button class="secondary" type="button" id="refreshButton">
+                Refresh
+            </button>
+        </div>
+
+        <div id="tableMessage" class="message"></div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody id="contactsBody">
+                <tr>
+                    <td colspan="5">Loading contacts...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <button class="secondary" id="previousButton" type="button">
+                Previous
+            </button>
+
+            <span id="pageInfo">Page 1 of 1</span>
+
+            <button class="secondary" id="nextButton" type="button">
+                Next
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    let currentPage = 0;
+    let totalPages = 1;
+
+    const contactForm = document.getElementById("contactForm");
+    const contactId = document.getElementById("contactId");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const messageInput = document.getElementById("message");
+
+    function showMessage(elementId, message, type) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.className = "message " + type;
+    }
+
+    function clearMessage(elementId) {
+        const element = document.getElementById(elementId);
+        element.textContent = "";
+        element.className = "message";
+    }
+
+    async function getErrorMessage(response) {
+        const text = await response.text();
+
+        if (!text) {
+            return "Request failed. Please try again.";
+        }
+
+        try {
+            const data = JSON.parse(text);
+
+            if (data.errors) {
+                return Object.values(data.errors).join("\n");
+            }
+
+            if (data.error) {
+                return data.error;
+            }
+
+            if (data.message) {
+                return data.message;
+            }
+
+            return Object.entries(data)
+                .map(([key, value]) => key + ": " + value)
+                .join("\n");
+        } catch {
+            return response.status === 401 || response.status === 403
+                ? "Access denied. Please log in as admin."
+                : "Request failed (" + response.status + "). Check your login and try again.";
+        }
+    }
+
+    async function loadContacts() {
+        const tbody = document.getElementById("contactsBody");
+        clearMessage("tableMessage");
+
+        tbody.innerHTML =
+            '<tr><td colspan="5">Loading contacts...</td></tr>';
+
+        const sortField = document.getElementById("sortField").value;
+        const sortDirection =
+            document.getElementById("sortDirection").value;
+        const pageSize = document.getElementById("pageSize").value;
+
+        const params = new URLSearchParams({
+            page: currentPage,
+            size: pageSize,
+            sort: sortField + "," + sortDirection
+        });
+
+        try {
+            const response = await fetch("/contacts?" + params.toString());
+
+            if (!response.ok) {
+                throw new Error(await getErrorMessage(response));
+            }
+
+            const data = await response.json();
+
+            // Spring Data Page response
+            const contacts = data.content || [];
+
+            totalPages = Math.max(data.totalPages || 1, 1);
+            currentPage = data.number || 0;
+
+            tbody.innerHTML = "";
+
+            if (contacts.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="5">No contacts found.</td></tr>';
+            } else {
+                contacts.forEach(contact => {
+                    const row = document.createElement("tr");
+
+                    const values = [
+                        contact.id,
+                        contact.name,
+                        contact.email,
+                        contact.message
+                    ];
+
+                    values.forEach(value => {
+                        const cell = document.createElement("td");
+                        cell.textContent = value ?? "";
+                        row.appendChild(cell);
+                    });
+
+                    const actions = document.createElement("td");
+
+                    const editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    editButton.className = "edit";
+                    editButton.type = "button";
+                    editButton.addEventListener("click", () => {
+                        editContact(contact);
+                    });
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.className = "delete";
+                    deleteButton.type = "button";
+                    deleteButton.addEventListener("click", () => {
+                        deleteContact(contact.id);
+                    });
+
+                    actions.appendChild(editButton);
+                    actions.appendChild(deleteButton);
+                    row.appendChild(actions);
+                    tbody.appendChild(row);
+                });
+            }
+
+            document.getElementById("pageInfo").textContent =
+                "Page " + (currentPage + 1) + " of " + totalPages;
+
+            document.getElementById("previousButton").disabled =
+                currentPage <= 0;
+
+            document.getElementById("nextButton").disabled =
+                currentPage >= totalPages - 1;
+
+        } catch (error) {
+            tbody.innerHTML =
+                '<tr><td colspan="5">Unable to load contacts.</td></tr>';
+
+            showMessage("tableMessage", error.message, "error");
+        }
+    }
+
+    contactForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        clearMessage("formMessage");
+
+        if (!contactForm.reportValidity()) {
+            return;
+        }
+
+        const id = contactId.value;
+
+        const contact = {
+            name: nameInput.value.trim(),
+            email: emailInput.value.trim(),
+            message: messageInput.value.trim()
+        };
+
+        if (!contact.name || !contact.email || !contact.message) {
+            showMessage(
+                "formMessage",
+                "Name, email, and message cannot be blank.",
+                "error"
+            );
+            return;
+        }
+
+        const saveButton = document.getElementById("saveButton");
+        saveButton.disabled = true;
+
+        try {
+            const response = await fetch(
+                id ? "/contacts/" + encodeURIComponent(id) : "/contacts",
+                {
+                    method: id ? "PUT" : "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(contact)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(await getErrorMessage(response));
+            }
+
+            showMessage(
+                "pageMessage",
+                id ? "Contact updated successfully." :
+                    "Contact created successfully.",
+                "success"
+            );
+
+            resetForm();
+            currentPage = 0;
+            await loadContacts();
+
+        } catch (error) {
+            showMessage("formMessage", error.message, "error");
+        } finally {
+            saveButton.disabled = false;
+        }
+    });
+
+    function editContact(contact) {
+        contactId.value = contact.id;
+        nameInput.value = contact.name || "";
+        emailInput.value = contact.email || "";
+        messageInput.value = contact.message || "";
+
+        document.getElementById("formTitle").textContent = "Edit Contact";
+        document.getElementById("saveButton").textContent = "Update Contact";
+        document.getElementById("cancelButton").hidden = false;
+
+        clearMessage("formMessage");
+        document.getElementById("contactForm").scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+
+    function resetForm() {
+        contactForm.reset();
+        contactId.value = "";
+
+        document.getElementById("formTitle").textContent =
+            "Add New Contact";
+
+        document.getElementById("saveButton").textContent = "Add Contact";
+        document.getElementById("cancelButton").hidden = true;
+
+        clearMessage("formMessage");
+    }
+
+    async function deleteContact(id) {
+        const confirmed = confirm(
+            "Are you sure you want to delete contact #" + id + "?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                "/contacts/" + encodeURIComponent(id),
+                { method: "DELETE" }
+            );
+
+            if (!response.ok) {
+                throw new Error(await getErrorMessage(response));
+            }
+
+            showMessage(
+                "pageMessage",
+                "Contact deleted successfully.",
+                "success"
+            );
+
+            if (currentPage > 0) {
+                // Refresh the current page after deletion.
+                await loadContacts();
+
+                if (document.getElementById("contactsBody")
+                    .textContent.includes("No contacts found")) {
+                    currentPage--;
+                    await loadContacts();
+                }
+            } else {
+                await loadContacts();
+            }
+
+        } catch (error) {
+            showMessage("pageMessage", error.message, "error");
+        }
+    }
+
+    document.getElementById("cancelButton").addEventListener(
+        "click", resetForm
+    );
+
+    document.getElementById("previousButton").addEventListener(
+        "click", async () => {
+            if (currentPage > 0) {
+                currentPage--;
+                await loadContacts();
+            }
+        }
+    );
+
+    document.getElementById("nextButton").addEventListener(
+        "click", async () => {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                await loadContacts();
+            }
+        }
+    );
+
+    document.getElementById("sortField").addEventListener(
+        "change", async () => {
+            currentPage = 0;
+            await loadContacts();
+        }
+    );
+
+    document.getElementById("sortDirection").addEventListener(
+        "change", async () => {
+            currentPage = 0;
+            await loadContacts();
+        }
+    );
+
+    document.getElementById("pageSize").addEventListener(
+        "change", async () => {
+            currentPage = 0;
+            await loadContacts();
+        }
+    );
+
+    document.getElementById("refreshButton").addEventListener(
+        "click", loadContacts
+    );
+
+    loadContacts();
+</script>
+</body>
+</html>
